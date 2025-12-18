@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary-yellow: #f59e0b;
+  --primary-yellow-dark: #d97706;
+  --primary-yellow-light: #fbbf24;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
 }
 
 @theme inline {
@@ -22,5 +29,37 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Serif font for headings */
+.font-serif {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 font-semibold uppercase tracking-wide transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+}
+
+.btn-outline {
+  @apply border-2 border-yellow-500 text-gray-900 hover:bg-yellow-500 hover:text-white px-6 py-3 font-semibold uppercase tracking-wide transition-all duration-300 shadow-md hover:shadow-lg;
+}
+
+/* Section spacing */
+.section-padding {
+  @apply py-16 md:py-24 lg:py-32;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
 }
