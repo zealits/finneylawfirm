@@ -1,5 +1,9 @@
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import Image from 'next/image';
+import downtownImage from '../../public/images/aboutUs/FLF-Downtown.jpg'
+import flfEastgate from '../../public/images/aboutUs/FLF-Eastgate.jpg'
+import ftThomasImage from '../../public/images/aboutUs/FLF-Ft-Thomas.jpg'
 
 export default function AboutUsPage() {
   return (
@@ -35,9 +39,7 @@ export default function AboutUsPage() {
               <h2 className="text-2xl md:text-3xl font-serif text-gray-900 mb-6">Downtown</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="relative h-64 md:h-80 bg-gray-200 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
-                    <span className="text-gray-600 text-lg font-medium">Downtown Office Image</span>
-                  </div>
+                  <Image src={downtownImage} alt="Downtown Cincinnati" fill className="object-cover" unoptimized />
                 </div>
                 <div>
                   <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
@@ -60,9 +62,7 @@ export default function AboutUsPage() {
               <h2 className="text-2xl md:text-3xl font-serif text-gray-900 mb-6">Eastgate</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="relative h-64 md:h-80 bg-gray-200 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
-                    <span className="text-gray-600 text-lg font-medium">Eastgate Office Image</span>
-                  </div>
+                  <Image src={flfEastgate} alt="Eastgate Office" fill className="object-cover" unoptimized />
                 </div>
                 <div>
                   <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
@@ -86,9 +86,7 @@ export default function AboutUsPage() {
               <h2 className="text-2xl md:text-3xl font-serif text-gray-900 mb-6">Ft. Thomas</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="relative h-64 md:h-80 bg-gray-200 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
-                    <span className="text-gray-600 text-lg font-medium">Ft. Thomas Office Image</span>
-                  </div>
+                  <Image src={ftThomasImage} alt="Ft. Thomas Office" fill className="object-cover" unoptimized />
                 </div>
                 <div>
                   <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
