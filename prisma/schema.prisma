@@ -14,7 +14,42 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         UserRole @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum UserRole {
+  ADMIN
+}
+
+enum ProfessionalCategory {
+  ATTORNEYS
+  OF_COUNSEL
+  PARALEGALS
+  ADMIN_STAFF
+  LAW_CLERKS_AND_INTERNS
+}
+
+model Professional {
+  id                 String                @id @default(cuid())
+  slug               String                @unique
+  firstName          String
+  middleName         String?
+  lastName           String
+  title              String
+  category           ProfessionalCategory
+  phone              String
+  email              String
+  practiceAreas      String?
+  imagePath          String?
+  biography          String?
+  education          Json?
+  admittedToPractice String[]
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
 }

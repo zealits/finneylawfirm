@@ -1,10 +1,71 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { practiceAreas } from '@/lib/practiceAreas';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfessionalsDropdownOpen, setIsProfessionalsDropdownOpen] = useState(false);
+  const [isPracticeAreasDropdownOpen, setIsPracticeAreasDropdownOpen] = useState(false);
+  const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const practiceAreasDropdownRef = useRef<HTMLDivElement>(null);
+  const aboutDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsProfessionalsDropdownOpen(false);
+      }
+      if (practiceAreasDropdownRef.current && !practiceAreasDropdownRef.current.contains(event.target as Node)) {
+        setIsPracticeAreasDropdownOpen(false);
+      }
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
+        setIsAboutDropdownOpen(false);
+      }
+    }
+
+    if (isProfessionalsDropdownOpen || isPracticeAreasDropdownOpen || isAboutDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isProfessionalsDropdownOpen, isPracticeAreasDropdownOpen, isAboutDropdownOpen]);
+
+  // Handle hash scrolling on page load
+  useEffect(() => {
+    if (window.location.hash === '#practice-areas-section') {
+      // Small delay to ensure page is fully rendered
+      setTimeout(() => {
+        const section = document.getElementById('practice-areas-section');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, []);
+
+  // Handle Practice Areas click - scroll to section on homepage, navigate to page otherwise
+  function handlePracticeAreasClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    const href = e.currentTarget.getAttribute('href');
+    if (href === '/practice-areas' || href === '#practice-areas') {
+      e.preventDefault();
+      // Check if we're on the homepage
+      if (window.location.pathname === '/') {
+        const section = document.getElementById('practice-areas-section');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        // Navigate to homepage and scroll
+        window.location.href = '/#practice-areas-section';
+      }
+    }
+  }
 
   return (
     <>
@@ -52,18 +113,129 @@ export default function Navigation() {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
-              <Link href="/about" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group">
-                ABOUT
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/practice-areas" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group">
-                PRACTICE AREAS
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/professionals" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group">
-                PROFESSIONALS
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
-              </Link>
+              <div 
+                ref={aboutDropdownRef}
+                className="relative"
+                onMouseEnter={() => setIsAboutDropdownOpen(true)}
+                onMouseLeave={() => setIsAboutDropdownOpen(false)}
+              >
+                <Link 
+                  href="/about-us" 
+                  className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group"
+                >
+                  ABOUT
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-yellow-600 transition-all ${isAboutDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                </Link>
+                {/* About Dropdown Menu */}
+                {isAboutDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 shadow-2xl rounded-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="py-2">
+                      <Link 
+                        href="/about-us/vision-values" 
+                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                        onClick={() => setIsAboutDropdownOpen(false)}
+                      >
+                        VISION & VALUES
+                      </Link>
+                      <Link 
+                        href="/about-us/making-a-difference" 
+                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                        onClick={() => setIsAboutDropdownOpen(false)}
+                      >
+                        MAKING A DIFFERENCE
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div 
+                ref={practiceAreasDropdownRef}
+                className="relative"
+                onMouseEnter={() => setIsPracticeAreasDropdownOpen(true)}
+                onMouseLeave={() => setIsPracticeAreasDropdownOpen(false)}
+              >
+                <Link 
+                  href="/practice-areas" 
+                  onClick={handlePracticeAreasClick}
+                  className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group"
+                >
+                  PRACTICE AREAS
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-yellow-600 transition-all ${isPracticeAreasDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                </Link>
+                {/* Practice Areas Dropdown Menu */}
+                {isPracticeAreasDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-80 bg-gray-800 shadow-2xl rounded-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="py-2">
+                      {practiceAreas.map((area) => (
+                        <Link 
+                          key={area.id}
+                          href={`/practice-areas/${area.slug}`} 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsPracticeAreasDropdownOpen(false)}
+                        >
+                          {area.title.toUpperCase()}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div 
+                ref={dropdownRef}
+                className="relative"
+                onMouseEnter={() => setIsProfessionalsDropdownOpen(true)}
+                onMouseLeave={() => setIsProfessionalsDropdownOpen(false)}
+              >
+                <Link 
+                  href="/professionals" 
+                  className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group"
+                >
+                  PROFESSIONALS
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-yellow-600 transition-all ${isProfessionalsDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                </Link>
+                {/* Dropdown Menu */}
+                {isProfessionalsDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 shadow-2xl rounded-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="py-2">
+                      <Link 
+                        href="/professionals/attorneys" 
+                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                        onClick={() => setIsProfessionalsDropdownOpen(false)}
+                      >
+                        ATTORNEYS
+                      </Link>
+                      <Link 
+                        href="/professionals/of-counsel" 
+                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                        onClick={() => setIsProfessionalsDropdownOpen(false)}
+                      >
+                        OF COUNSEL
+                      </Link>
+                      <Link 
+                        href="/professionals/paralegals" 
+                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                        onClick={() => setIsProfessionalsDropdownOpen(false)}
+                      >
+                        PARALEGALS
+                      </Link>
+                      <Link 
+                        href="/professionals/admin-staff" 
+                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                        onClick={() => setIsProfessionalsDropdownOpen(false)}
+                      >
+                        ADMIN STAFF
+                      </Link>
+                      <Link 
+                        href="/professionals/law-clerks-and-interns" 
+                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                        onClick={() => setIsProfessionalsDropdownOpen(false)}
+                      >
+                        LAW CLERKS AND INTERNS
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
               <Link href="/blog" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group">
                 BLOG
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
@@ -108,9 +280,43 @@ export default function Navigation() {
           {isMenuOpen && (
             <div className="lg:hidden pb-6 pt-4 border-t border-gray-100 animate-in slide-in-from-top">
               <div className="flex flex-col gap-4 mt-4">
-                <Link href="/about" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">ABOUT</Link>
-                <Link href="/practice-areas" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">PRACTICE AREAS</Link>
-                <Link href="/professionals" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">PROFESSIONALS</Link>
+                <div className="flex flex-col">
+                  <Link href="/about-us" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">ABOUT</Link>
+                  <div className="pl-4 flex flex-col border-l-2 border-gray-200 ml-2">
+                    <Link href="/about-us/vision-values" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">VISION & VALUES</Link>
+                    <Link href="/about-us/making-a-difference" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">MAKING A DIFFERENCE</Link>
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <Link 
+                    href="/practice-areas" 
+                    onClick={handlePracticeAreasClick}
+                    className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2"
+                  >
+                    PRACTICE AREAS
+                  </Link>
+                  <div className="pl-4 flex flex-col border-l-2 border-gray-200 ml-2">
+                    {practiceAreas.map((area) => (
+                      <Link 
+                        key={area.id}
+                        href={`/practice-areas/${area.slug}`} 
+                        className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1"
+                      >
+                        {area.title.toUpperCase()}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <Link href="/professionals" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">PROFESSIONALS</Link>
+                  <div className="pl-4 flex flex-col border-l-2 border-gray-200 ml-2">
+                    <Link href="/professionals/attorneys" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">ATTORNEYS</Link>
+                    <Link href="/professionals/of-counsel" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">OF COUNSEL</Link>
+                    <Link href="/professionals/paralegals" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">PARALEGALS</Link>
+                    <Link href="/professionals/admin-staff" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">ADMIN STAFF</Link>
+                    <Link href="/professionals/law-clerks-and-interns" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">LAW CLERKS AND INTERNS</Link>
+                  </div>
+                </div>
                 <Link href="/blog" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">BLOG</Link>
                 <Link href="/contact" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">CONTACT</Link>
                 <Link 
