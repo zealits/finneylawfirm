@@ -39,12 +39,25 @@ export default function PracticeAreas() {
             <Link
               key={area.id}
               href={`/practice-areas/${area.id}`}
-              className="group relative bg-gradient-to-br from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white p-8 md:p-10 aspect-square flex flex-col items-center justify-center transition-all duration-300 hover:scale-105 cursor-pointer rounded-xl shadow-lg hover:shadow-2xl border border-gray-700 hover:border-yellow-500"
+              className="group relative bg-white border border-gray-200 hover:border-yellow-500 text-gray-900 p-8 md:p-10 aspect-square flex flex-col items-center justify-center transition-all duration-300 cursor-pointer rounded-lg shadow-sm hover:shadow-xl hover:-translate-y-1 overflow-hidden"
             >
-              <div className="text-5xl md:text-6xl mb-6 text-yellow-400 group-hover:scale-110 transition-transform duration-300">{area.icon}</div>
-              <h3 className="text-center text-xs md:text-sm font-semibold uppercase tracking-wide leading-tight">
+              {/* Subtle gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/0 to-yellow-50/0 group-hover:from-yellow-50/50 group-hover:to-transparent transition-all duration-300 pointer-events-none"></div>
+              
+              {/* Icon container with modern styling */}
+              <div className="relative z-10 mb-6 p-4 rounded-full bg-gray-50 group-hover:bg-yellow-50 transition-colors duration-300">
+                <div className="text-4xl md:text-5xl group-hover:scale-110 transition-transform duration-300">
+                  {area.icon}
+                </div>
+              </div>
+              
+              {/* Title with improved typography */}
+              <h3 className="relative z-10 text-center text-xs md:text-sm font-semibold uppercase tracking-wider leading-tight text-gray-800 group-hover:text-gray-900 transition-colors duration-300 px-2">
                 {area.title}
               </h3>
+              
+              {/* Subtle bottom accent line */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500/0 to-transparent group-hover:via-yellow-500 transition-all duration-300"></div>
             </Link>
           ))}
         </div>
