@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import image from '../../public/images/heroSection/slider1.jpg'
+import slider1 from '../../public/images/heroSection/slider1.png'
+import slider2 from '../../public/images/heroSection/slider2.png'
+import slider3 from '../../public/images/heroSection/slider3.png'
 
 interface CarouselSlide {
   id: number;
@@ -16,19 +18,21 @@ const slides: CarouselSlide[] = [
   {
     id: 1,
     // backgroundGradient: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%)',// Ocean blue gradient
-    backgroundImage: image.src.toString(), 
+    backgroundImage: slider1.src.toString(), 
     subheadline: 'WE AGGRESSIVELY ADVANCE COMMERCIAL AND INDIVIDUAL DISPUTE RESOLUTION',
     headline: 'Navigating Turbulent Waters',
   },
   {
     id: 2,
-    backgroundGradient: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)', // Purple gradient
+    // backgroundGradient: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)', // Purple gradient
+    backgroundImage: slider2.src.toString(), 
     subheadline: 'WE ARE COMMITTED TO THE HIGHEST QUALITY AND ETHICAL PRACTICE OF LAW',
     headline: 'Making A Difference For Our Clients',
   },
   {
     id: 3,
-    backgroundGradient: 'linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%)', // Gray gradient
+    // backgroundGradient: 'linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%)', // Gray gradient
+    backgroundImage: slider3.src.toString(), 
     subheadline: 'FINNEY LAW FIRM HAS WON THREE CASES',
     overlay: 'BEFORE THE U.S. SUPREME COURT',
     headline: 'Small Firm, BIG Cases',
@@ -57,7 +61,7 @@ export default function HeroCarousel() {
   const currentSlideData = slides[currentSlide];
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden -mt-[180px]" style={{ height: 'calc(100vh + 180px)' }}>
       {/* Background Image */}
       <div className="absolute inset-0">
         <div 

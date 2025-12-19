@@ -9,6 +9,7 @@ export default function Navigation() {
   const [isProfessionalsDropdownOpen, setIsProfessionalsDropdownOpen] = useState(false);
   const [isPracticeAreasDropdownOpen, setIsPracticeAreasDropdownOpen] = useState(false);
   const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const practiceAreasDropdownRef = useRef<HTMLDivElement>(null);
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
@@ -35,6 +36,20 @@ export default function Navigation() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isProfessionalsDropdownOpen, isPracticeAreasDropdownOpen, isAboutDropdownOpen]);
+
+  // Handle scroll detection for navbar background
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   // Handle hash scrolling on page load
   useEffect(() => {
@@ -67,10 +82,19 @@ export default function Navigation() {
     }
   }
 
+  const topBarRef = useRef<HTMLDivElement>(null);
+  const [topBarHeight, setTopBarHeight] = useState(0);
+
+  useEffect(() => {
+    if (topBarRef.current) {
+      setTopBarHeight(topBarRef.current.offsetHeight);
+    }
+  }, []);
+
   return (
-    <>
+    <div className="sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-gray-900 text-white py-3 px-4 border-b border-gray-800">
+      <div ref={topBarRef} className="bg-gray-900 text-white py-3 px-4 border-b border-gray-800">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs md:text-sm gap-4">
           <div className="text-gray-300 font-medium">THIS IS AN ADVERTISEMENT</div>
           <div className="flex items-center gap-4 md:gap-8 flex-wrap">
@@ -103,11 +127,25 @@ export default function Navigation() {
       </div>
 
       {/* Main Navigation */}
-      <nav className="bg-white/98 backdrop-blur-md sticky top-0 z-50 shadow-md border-b border-gray-100">
+      <nav 
+        className={`transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-white/98 backdrop-blur-md shadow-md border-b border-gray-100' 
+            : ''
+        }`}
+        style={!isScrolled ? { 
+          backgroundColor: 'transparent', 
+          background: 'transparent' 
+        } : undefined}
+      >
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link href="/" className="text-xl md:text-2xl lg:text-3xl font-serif text-gray-900 font-bold hover:text-yellow-600 transition-colors">
+            <Link href="/" className={`text-xl md:text-2xl lg:text-3xl font-serif font-bold transition-colors ${
+              isScrolled 
+                ? 'text-gray-900 hover:text-yellow-600' 
+                : 'text-white hover:text-yellow-400'
+            }`}>
               FINNEY LAW FIRM
             </Link>
 
@@ -121,10 +159,14 @@ export default function Navigation() {
               >
                 <Link 
                   href="/about-us" 
-                  className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group"
+                  className={`transition-colors font-medium text-sm uppercase tracking-wider relative group ${
+                    isScrolled 
+                      ? 'text-gray-700 hover:text-yellow-600' 
+                      : 'text-white hover:text-yellow-400'
+                  }`}
                 >
                   ABOUT
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-yellow-600 transition-all ${isAboutDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                  <span className={`absolute bottom-0 left-0 h-0.5 transition-all ${isScrolled ? 'bg-yellow-600' : 'bg-yellow-400'} ${isAboutDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                 </Link>
                 {/* About Dropdown Menu */}
                 {isAboutDropdownOpen && (
@@ -157,10 +199,14 @@ export default function Navigation() {
                 <Link 
                   href="/practice-areas" 
                   onClick={handlePracticeAreasClick}
-                  className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group"
+                  className={`transition-colors font-medium text-sm uppercase tracking-wider relative group ${
+                    isScrolled 
+                      ? 'text-gray-700 hover:text-yellow-600' 
+                      : 'text-white hover:text-yellow-400'
+                  }`}
                 >
                   PRACTICE AREAS
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-yellow-600 transition-all ${isPracticeAreasDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                  <span className={`absolute bottom-0 left-0 h-0.5 transition-all ${isScrolled ? 'bg-yellow-600' : 'bg-yellow-400'} ${isPracticeAreasDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                 </Link>
                 {/* Practice Areas Dropdown Menu */}
                 {isPracticeAreasDropdownOpen && (
@@ -188,10 +234,14 @@ export default function Navigation() {
               >
                 <Link 
                   href="/professionals" 
-                  className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group"
+                  className={`transition-colors font-medium text-sm uppercase tracking-wider relative group ${
+                    isScrolled 
+                      ? 'text-gray-700 hover:text-yellow-600' 
+                      : 'text-white hover:text-yellow-400'
+                  }`}
                 >
                   PROFESSIONALS
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-yellow-600 transition-all ${isProfessionalsDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                  <span className={`absolute bottom-0 left-0 h-0.5 transition-all ${isScrolled ? 'bg-yellow-600' : 'bg-yellow-400'} ${isProfessionalsDropdownOpen ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
                 </Link>
                 {/* Dropdown Menu */}
                 {isProfessionalsDropdownOpen && (
@@ -236,22 +286,38 @@ export default function Navigation() {
                   </div>
                 )}
               </div>
-              <Link href="/blog" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group">
+              <Link href="/blog" className={`transition-colors font-medium text-sm uppercase tracking-wider relative group ${
+                isScrolled 
+                  ? 'text-gray-700 hover:text-yellow-600' 
+                  : 'text-white hover:text-yellow-400'
+              }`}>
                 BLOG
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
+                <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all group-hover:w-full ${isScrolled ? 'bg-yellow-600' : 'bg-yellow-400'}`}></span>
               </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider relative group">
+              <Link href="/contact" className={`transition-colors font-medium text-sm uppercase tracking-wider relative group ${
+                isScrolled 
+                  ? 'text-gray-700 hover:text-yellow-600' 
+                  : 'text-white hover:text-yellow-400'
+              }`}>
                 CONTACT
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-yellow-600 transition-all group-hover:w-full"></span>
+                <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all group-hover:w-full ${isScrolled ? 'bg-yellow-600' : 'bg-yellow-400'}`}></span>
               </Link>
-              <button className="text-gray-700 hover:text-yellow-600 transition-colors p-2 hover:bg-gray-100 rounded-full" aria-label="Search">
+              <button className={`transition-colors p-2 rounded-full ${
+                isScrolled 
+                  ? 'text-gray-700 hover:text-yellow-600 hover:bg-gray-100' 
+                  : 'text-white hover:text-yellow-400 hover:bg-white/10'
+              }`} aria-label="Search">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </button>
               <Link 
                 href="/case" 
-                className="btn-outline flex items-center gap-2 text-sm"
+                className={`flex items-center gap-2 text-sm px-4 py-2 border transition-all ${
+                  isScrolled 
+                    ? 'btn-outline border-yellow-600 text-gray-900 hover:bg-yellow-600 hover:text-white' 
+                    : 'border-white/50 text-white hover:bg-white/10 hover:border-white'
+                }`}
               >
                 DO I HAVE A CASE?
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -262,7 +328,11 @@ export default function Navigation() {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden text-gray-900 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className={`lg:hidden p-2 rounded-lg transition-colors ${
+                isScrolled 
+                  ? 'text-gray-900 hover:bg-gray-100' 
+                  : 'text-white hover:bg-white/10'
+              }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -278,29 +348,45 @@ export default function Navigation() {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="lg:hidden pb-6 pt-4 border-t border-gray-100 animate-in slide-in-from-top">
+            <div className={`lg:hidden pb-6 pt-4 animate-in slide-in-from-top ${
+              isScrolled ? 'border-t border-gray-100' : 'border-t border-white/20'
+            }`}>
               <div className="flex flex-col gap-4 mt-4">
                 <div className="flex flex-col">
-                  <Link href="/about-us" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">ABOUT</Link>
-                  <div className="pl-4 flex flex-col border-l-2 border-gray-200 ml-2">
-                    <Link href="/about-us/vision-values" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">VISION & VALUES</Link>
-                    <Link href="/about-us/making-a-difference" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">MAKING A DIFFERENCE</Link>
+                  <Link href="/about-us" className={`transition-colors font-medium text-sm uppercase tracking-wider py-2 ${
+                    isScrolled ? 'text-gray-700 hover:text-yellow-600' : 'text-white hover:text-yellow-400'
+                  }`}>ABOUT</Link>
+                  <div className={`pl-4 flex flex-col border-l-2 ml-2 ${
+                    isScrolled ? 'border-gray-200' : 'border-white/30'
+                  }`}>
+                    <Link href="/about-us/vision-values" className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                      isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                    }`}>VISION & VALUES</Link>
+                    <Link href="/about-us/making-a-difference" className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                      isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                    }`}>MAKING A DIFFERENCE</Link>
                   </div>
                 </div>
                 <div className="flex flex-col">
                   <Link 
                     href="/practice-areas" 
                     onClick={handlePracticeAreasClick}
-                    className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2"
+                    className={`transition-colors font-medium text-sm uppercase tracking-wider py-2 ${
+                      isScrolled ? 'text-gray-700 hover:text-yellow-600' : 'text-white hover:text-yellow-400'
+                    }`}
                   >
                     PRACTICE AREAS
                   </Link>
-                  <div className="pl-4 flex flex-col border-l-2 border-gray-200 ml-2">
+                  <div className={`pl-4 flex flex-col border-l-2 ml-2 ${
+                    isScrolled ? 'border-gray-200' : 'border-white/30'
+                  }`}>
                     {practiceAreas.map((area) => (
                       <Link 
                         key={area.id}
-                        href={`/practice-areas/${area.slug}`} 
-                        className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1"
+                        href={`/practice-areas/${area.slug}`}
+                        className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                          isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                        }`}
                       >
                         {area.title.toUpperCase()}
                       </Link>
@@ -308,20 +394,42 @@ export default function Navigation() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  <Link href="/professionals" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">PROFESSIONALS</Link>
-                  <div className="pl-4 flex flex-col border-l-2 border-gray-200 ml-2">
-                    <Link href="/professionals/attorneys" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">ATTORNEYS</Link>
-                    <Link href="/professionals/of-counsel" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">OF COUNSEL</Link>
-                    <Link href="/professionals/paralegals" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">PARALEGALS</Link>
-                    <Link href="/professionals/admin-staff" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">ADMIN STAFF</Link>
-                    <Link href="/professionals/law-clerks-and-interns" className="text-gray-600 hover:text-yellow-600 transition-colors text-xs uppercase tracking-wider py-1">LAW CLERKS AND INTERNS</Link>
+                  <Link href="/professionals" className={`transition-colors font-medium text-sm uppercase tracking-wider py-2 ${
+                    isScrolled ? 'text-gray-700 hover:text-yellow-600' : 'text-white hover:text-yellow-400'
+                  }`}>PROFESSIONALS</Link>
+                  <div className={`pl-4 flex flex-col border-l-2 ml-2 ${
+                    isScrolled ? 'border-gray-200' : 'border-white/30'
+                  }`}>
+                    <Link href="/professionals/attorneys" className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                      isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                    }`}>ATTORNEYS</Link>
+                    <Link href="/professionals/of-counsel" className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                      isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                    }`}>OF COUNSEL</Link>
+                    <Link href="/professionals/paralegals" className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                      isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                    }`}>PARALEGALS</Link>
+                    <Link href="/professionals/admin-staff" className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                      isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                    }`}>ADMIN STAFF</Link>
+                    <Link href="/professionals/law-clerks-and-interns" className={`transition-colors text-xs uppercase tracking-wider py-1 ${
+                      isScrolled ? 'text-gray-600 hover:text-yellow-600' : 'text-white/80 hover:text-yellow-400'
+                    }`}>LAW CLERKS AND INTERNS</Link>
                   </div>
                 </div>
-                <Link href="/blog" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">BLOG</Link>
-                <Link href="/contact" className="text-gray-700 hover:text-yellow-600 transition-colors font-medium text-sm uppercase tracking-wider py-2">CONTACT</Link>
+                <Link href="/blog" className={`transition-colors font-medium text-sm uppercase tracking-wider py-2 ${
+                  isScrolled ? 'text-gray-700 hover:text-yellow-600' : 'text-white hover:text-yellow-400'
+                }`}>BLOG</Link>
+                <Link href="/contact" className={`transition-colors font-medium text-sm uppercase tracking-wider py-2 ${
+                  isScrolled ? 'text-gray-700 hover:text-yellow-600' : 'text-white hover:text-yellow-400'
+                }`}>CONTACT</Link>
                 <Link 
                   href="/case" 
-                  className="btn-outline text-center mt-2"
+                  className={`text-center mt-2 px-4 py-2 border transition-all ${
+                    isScrolled 
+                      ? 'btn-outline border-yellow-600 text-gray-900 hover:bg-yellow-600 hover:text-white' 
+                      : 'border-white/50 text-white hover:bg-white/10 hover:border-white'
+                  }`}
                 >
                   DO I HAVE A CASE?
                   <svg className="w-4 h-4 inline ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -333,7 +441,7 @@ export default function Navigation() {
           )}
         </div>
       </nav>
-    </>
+    </div>
   );
 }
 
