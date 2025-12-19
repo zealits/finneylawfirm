@@ -43,3 +43,5 @@ Images should be named using the professional's slug (as defined in `lib/profess
 
 - If an image is not found, the system will display initials as a placeholder
 - Images are referenced in the `imagePath` field of each professional object in `lib/professionals.ts`
+
+

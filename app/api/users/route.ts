@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { firstName, lastName } = body;
+    const { firstName, lastName, email, passwordHash } = body;
 
     // Validate input
     if (!firstName || !lastName) {
@@ -14,11 +14,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!email || !passwordHash) {
+      return NextResponse.json(
+        { error: 'Email and password hash are required' },
+        { status: 400 }
+      );
+    }
+
+    // Combine firstName and lastName into name field
+    const name = `${firstName.trim()} ${lastName.trim()}`.trim();
+
     // Create user in database
     const user = await prisma.user.create({
       data: {
-        firstName: firstName.trim(),
-        lastName: lastName.trim(),
+        name,
+        email: email.trim(),
+        passwordHash,
       },
     });
 
@@ -34,3 +45,5 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+

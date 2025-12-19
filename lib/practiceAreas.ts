@@ -30,3 +30,5 @@ export function getPracticeAreaSlug(title: string): string {
   );
   return area?.slug || title.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '');
 }
+
+

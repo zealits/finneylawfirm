@@ -170,3 +170,5 @@ export function getProfessionalBySlug(slug: string): Professional | undefined {
 export function getAllProfessionals(): Professional[] {
   return professionals;
 }
+
+

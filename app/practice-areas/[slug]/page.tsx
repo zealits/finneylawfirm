@@ -162,3 +162,5 @@ function ProfessionalCard({ professional }: { professional: any }) {
     </div>
   );
 }
+
+

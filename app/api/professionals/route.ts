@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getCurrentAdmin } from '@/lib/auth';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { Prisma } from '@prisma/client';
 
 function slugify(value: string) {
   return value
@@ -100,7 +101,7 @@ export async function POST(request: Request) {
         imagePath,
         slug,
         biography: combinedBiography || null,
-        education: educationText ? { raw: educationText } : null,
+        education: educationText ? { raw: educationText } : Prisma.JsonNull,
         admittedToPractice,
       },
     });
@@ -114,4 +115,6 @@ export async function POST(request: Request) {
     );
   }
 }
+
+
 

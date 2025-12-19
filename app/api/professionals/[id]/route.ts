@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getCurrentAdmin } from '@/lib/auth';
+import { Prisma } from '@prisma/client';
 
 export async function GET(
   _request: Request,
@@ -106,7 +107,7 @@ export async function PUT(
         email,
         practiceAreas: practiceAreasStr,
         biography: combinedBiography || null,
-        education: education ? { raw: education } : null,
+        education: education ? { raw: education } : Prisma.JsonNull,
         admittedToPractice: admittedArray,
       },
     });
@@ -120,4 +121,6 @@ export async function PUT(
     );
   }
 }
+
+
 

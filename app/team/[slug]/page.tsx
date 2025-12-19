@@ -113,16 +113,19 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
               )}
 
               {/* Education */}
-              {professional.education && professional.education.length > 0 && (
+              {professional.education && 
+               typeof professional.education === 'object' && 
+               professional.education !== null &&
+               'raw' in professional.education &&
+               typeof professional.education.raw === 'string' &&
+               professional.education.raw.trim().length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-xl font-serif text-gray-900 mb-3">Education</h3>
-                  <ul className="space-y-2">
-                    {professional.education.map((edu, index) => (
-                      <li key={index} className="text-gray-700">
-                        {edu.institution}, {edu.degree} ({edu.year})
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="prose prose-lg max-w-none">
+                    <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                      {professional.education.raw}
+                    </p>
+                  </div>
                 </div>
               )}
 
@@ -156,3 +159,5 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
     </div>
   );
 }
+
+
