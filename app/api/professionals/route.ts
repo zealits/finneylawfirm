@@ -13,6 +13,34 @@ function slugify(value: string) {
     .replace(/^-+|-+$/g, '');
 }
 
+export async function GET() {
+  try {
+    const admin = await getCurrentAdmin();
+    if (!admin) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const professionals = await prisma.professional.findMany({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+      },
+      orderBy: {
+        lastName: 'asc',
+      },
+    });
+
+    return NextResponse.json(professionals);
+  } catch (error) {
+    console.error('Get professionals error', error);
+    return NextResponse.json(
+      { error: 'Something went wrong.' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const admin = await getCurrentAdmin();
