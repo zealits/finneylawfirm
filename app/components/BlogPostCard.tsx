@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 import type { BlogPostWithRelations } from '@/lib/blog';
 
 interface BlogPostCardProps {
@@ -7,6 +10,8 @@ interface BlogPostCardProps {
 }
 
 export default function BlogPostCard({ post }: BlogPostCardProps) {
+  const [imageError, setImageError] = useState(false);
+  
   const authorName = post.author
     ? `${post.author.firstName} ${post.author.lastName}`
     : post.authorName || 'Anonymous';
@@ -21,7 +26,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
 
   return (
     <article className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 break-inside-avoid mb-6">
-      {post.featuredImage && (
+      {post.featuredImage && !imageError && (
         <Link href={`/blog/${post.slug}`} className="block">
           <div className="relative w-full bg-gray-100 overflow-hidden">
             <Image
@@ -31,7 +36,20 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
               height={400}
               className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={() => setImageError(true)}
             />
+          </div>
+        </Link>
+      )}
+      {post.featuredImage && imageError && (
+        <Link href={`/blog/${post.slug}`} className="block">
+          <div className="relative w-full bg-gray-200 h-64 flex items-center justify-center">
+            <div className="text-center text-gray-400">
+              <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p className="text-sm">Image not available</p>
+            </div>
           </div>
         </Link>
       )}

@@ -5,8 +5,8 @@ import BlogPostCard from '@/app/components/BlogPostCard';
 import ReadingProgress from '@/app/components/ReadingProgress';
 import SocialShare from '@/app/components/SocialShare';
 import TableOfContents from '@/app/components/TableOfContents';
+import SafeImage from '@/app/components/SafeImage';
 import Link from 'next/link';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
@@ -197,7 +197,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 mb-16">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-50">
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
-              <Image
+              <SafeImage
                 src={post.featuredImage}
                 alt={post.title}
                 width={1400}
