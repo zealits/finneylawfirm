@@ -170,22 +170,24 @@ export default function Navigation() {
                 </Link>
                 {/* About Dropdown Menu */}
                 {isAboutDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 shadow-2xl rounded-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="py-2">
-                      <Link 
-                        href="/about-us/vision-values" 
-                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                        onClick={() => setIsAboutDropdownOpen(false)}
-                      >
-                        VISION & VALUES
-                      </Link>
-                      <Link 
-                        href="/about-us/making-a-difference" 
-                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                        onClick={() => setIsAboutDropdownOpen(false)}
-                      >
-                        MAKING A DIFFERENCE
-                      </Link>
+                  <div className="absolute top-full left-0 pt-2 w-64 z-50">
+                    <div className="bg-gray-800 shadow-2xl rounded-lg overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="py-2">
+                        <Link 
+                          href="/about-us/vision-values" 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsAboutDropdownOpen(false)}
+                        >
+                          VISION & VALUES
+                        </Link>
+                        <Link 
+                          href="/about-us/making-a-difference" 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsAboutDropdownOpen(false)}
+                        >
+                          MAKING A DIFFERENCE
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -210,18 +212,20 @@ export default function Navigation() {
                 </Link>
                 {/* Practice Areas Dropdown Menu */}
                 {isPracticeAreasDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-80 bg-gray-800 shadow-2xl rounded-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="py-2">
-                      {practiceAreas.map((area) => (
-                        <Link 
-                          key={area.id}
-                          href={`/practice-areas/${area.slug}`} 
-                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                          onClick={() => setIsPracticeAreasDropdownOpen(false)}
-                        >
-                          {area.title.toUpperCase()}
-                        </Link>
-                      ))}
+                  <div className="absolute top-full left-0 pt-2 w-80 z-50">
+                    <div className="bg-gray-800 shadow-2xl rounded-lg overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="py-2">
+                        {practiceAreas.map((area) => (
+                          <Link 
+                            key={area.id}
+                            href={`/practice-areas/${area.slug}`} 
+                            className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                            onClick={() => setIsPracticeAreasDropdownOpen(false)}
+                          >
+                            {area.title.toUpperCase()}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -245,43 +249,45 @@ export default function Navigation() {
                 </Link>
                 {/* Dropdown Menu */}
                 {isProfessionalsDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-gray-800 shadow-2xl rounded-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                    <div className="py-2">
-                      <Link 
-                        href="/professionals/attorneys" 
-                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                        onClick={() => setIsProfessionalsDropdownOpen(false)}
-                      >
-                        ATTORNEYS
-                      </Link>
-                      <Link 
-                        href="/professionals/of-counsel" 
-                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                        onClick={() => setIsProfessionalsDropdownOpen(false)}
-                      >
-                        OF COUNSEL
-                      </Link>
-                      <Link 
-                        href="/professionals/paralegals" 
-                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                        onClick={() => setIsProfessionalsDropdownOpen(false)}
-                      >
-                        PARALEGALS
-                      </Link>
-                      <Link 
-                        href="/professionals/admin-staff" 
-                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                        onClick={() => setIsProfessionalsDropdownOpen(false)}
-                      >
-                        ADMIN STAFF
-                      </Link>
-                      <Link 
-                        href="/professionals/law-clerks-and-interns" 
-                        className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
-                        onClick={() => setIsProfessionalsDropdownOpen(false)}
-                      >
-                        LAW CLERKS AND INTERNS
-                      </Link>
+                  <div className="absolute top-full left-0 pt-2 w-64 z-50">
+                    <div className="bg-gray-800 shadow-2xl rounded-lg overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="py-2">
+                        <Link 
+                          href="/professionals/attorneys" 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsProfessionalsDropdownOpen(false)}
+                        >
+                          ATTORNEYS
+                        </Link>
+                        <Link 
+                          href="/professionals/of-counsel" 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsProfessionalsDropdownOpen(false)}
+                        >
+                          OF COUNSEL
+                        </Link>
+                        <Link 
+                          href="/professionals/paralegals" 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsProfessionalsDropdownOpen(false)}
+                        >
+                          PARALEGALS
+                        </Link>
+                        <Link 
+                          href="/professionals/admin-staff" 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsProfessionalsDropdownOpen(false)}
+                        >
+                          ADMIN STAFF
+                        </Link>
+                        <Link 
+                          href="/professionals/law-clerks-and-interns" 
+                          className="block px-6 py-3 text-white hover:bg-gray-700 hover:text-yellow-400 transition-colors text-sm uppercase tracking-wider"
+                          onClick={() => setIsProfessionalsDropdownOpen(false)}
+                        >
+                          LAW CLERKS AND INTERNS
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )}

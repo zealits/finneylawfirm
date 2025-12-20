@@ -52,4 +52,51 @@ model Professional {
   admittedToPractice String[]
   createdAt          DateTime              @default(now())
   updatedAt          DateTime              @updatedAt
+  blogPosts          BlogPost[]
+}
+
+model BlogPost {
+  id              String         @id @default(cuid())
+  title           String
+  slug            String         @unique
+  content         String         @db.Text
+  excerpt         String?        @db.Text
+  featuredImage   String?
+  published       Boolean        @default(false)
+  publishedAt     DateTime?
+  readingTime     Int?           // in minutes
+  views           Int            @default(0)
+  authorId        String?
+  author          Professional?  @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorName      String?        // Fallback if no professional linked
+  categories      BlogCategory[] @relation("BlogPostCategories")
+  tags            BlogTag[]      @relation("BlogPostTags")
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([slug])
+  @@index([published, publishedAt])
+}
+
+model BlogCategory {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  description String?
+  posts       BlogPost[] @relation("BlogPostCategories")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([slug])
+}
+
+model BlogTag {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  slug      String     @unique
+  posts     BlogPost[] @relation("BlogPostTags")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([slug])
 }

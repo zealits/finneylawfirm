@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { prisma } from '@/lib/prisma';
 import { getPracticeAreaBySlug, practiceAreas } from '@/lib/practiceAreas';
 import { notFound } from 'next/navigation';
+import slider1 from '../../../public/images/heroSection/slider1.png';
 
 export async function generateStaticParams() {
   return practiceAreas.map((area) => ({
@@ -57,21 +58,45 @@ export default async function PracticeAreaPage({ params }: { params: Promise<{ s
     <div className="min-h-screen bg-white">
       <Navigation />
       
+      {/* Hero Banner Section */}
+      <div className="relative w-full overflow-hidden -mt-[180px]" style={{ height: 'calc(60vh + 180px)', minHeight: '500px' }}>
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${slider1.src})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          >
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 w-full">
+            <div className="max-w-3xl text-center mx-auto">
+              <p className="text-yellow-500 text-xs md:text-sm uppercase tracking-[0.2em] font-semibold mb-4">PRACTICE AREAS</p>
+              <div className="w-24 h-1 bg-yellow-500 mb-8 mx-auto shadow-lg"></div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-white mb-6 leading-tight font-bold drop-shadow-lg">
+                {practiceArea.title}
+              </h1>
+              <p className="text-white/90 max-w-3xl mx-auto text-base md:text-lg leading-relaxed drop-shadow-md">
+                Our experienced team of attorneys specializes in {practiceArea.title.toLowerCase()}. 
+                {associatedProfessionals.length > 0 
+                  ? ` Meet the professionals who can help you with your legal needs.`
+                  : ' Contact us to learn more about how we can assist you.'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <section className="section-padding bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center mb-16 md:mb-20">
-            <p className="text-yellow-500 text-xs md:text-sm uppercase tracking-[0.2em] font-semibold mb-4">PRACTICE AREAS</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-serif text-gray-900 mb-6 leading-tight">
-              {practiceArea.title}
-            </h1>
-            <p className="text-gray-600 max-w-3xl mx-auto text-base md:text-lg leading-relaxed">
-              Our experienced team of attorneys specializes in {practiceArea.title.toLowerCase()}. 
-              {associatedProfessionals.length > 0 
-                ? ` Meet the professionals who can help you with your legal needs.`
-                : ' Contact us to learn more about how we can assist you.'}
-            </p>
-          </div>
 
           {/* Professionals Grid */}
           {associatedProfessionals.length > 0 ? (

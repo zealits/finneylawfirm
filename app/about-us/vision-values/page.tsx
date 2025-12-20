@@ -1,20 +1,45 @@
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
+import aboutUsBanner from '../../../public/images/aboutUs/aboutUsBanner.jpg';
 
 export default function VisionValuesPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       
+      {/* Hero Banner Section */}
+      <div className="relative w-full overflow-hidden -mt-[180px]" style={{ height: 'calc(60vh + 180px)', minHeight: '500px' }}>
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${aboutUsBanner.src})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          >
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/50"></div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 w-full">
+            <div className="max-w-3xl text-center mx-auto">
+              <p className="text-yellow-500 text-xs md:text-sm uppercase tracking-[0.2em] font-semibold mb-4">ABOUT</p>
+              <div className="w-24 h-1 bg-yellow-500 mb-8 mx-auto shadow-lg"></div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-white mb-6 leading-tight font-bold drop-shadow-lg">
+                Vision & Values
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <section className="section-padding bg-white">
         <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
-          {/* Header */}
-          <div className="text-center mb-16 md:mb-20">
-            <p className="text-yellow-500 text-xs md:text-sm uppercase tracking-[0.2em] font-semibold mb-4">ABOUT</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-serif text-gray-900 mb-6 leading-tight">
-              Vision & Values
-            </h1>
-          </div>
 
           {/* Main Content */}
           <div className="prose prose-lg max-w-none">
